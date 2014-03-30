@@ -17,9 +17,10 @@ module Tod
       # Takes any possible object and converts it to how it would be
       # stored in the database.
       def mongoize(object)
-        case object
-        when TimeOfDay then object.mongoize
-        else object
+        if (object.respond_to?(:empty?) && object.empty?) || object.nil?
+          nil
+        else
+          TimeOfDay(object).mongoize
         end
       end
 
